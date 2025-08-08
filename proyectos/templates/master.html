@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portafolio - Jhoel Ordoñez{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-2 text-center text-md-start">
+                    <img src="{% static 'imagenes/Jhoel.png' %}" alt="Jhoel Ordoñez" class="rounded-circle img-thumbnail" width="150">
+                </div>
+                <div class="col-md-10 mt-3 mt-md-0">
+                    <h1>Jhoel Ordoñez</h1>
+                    <h2 class="h4">Ingeniero en Ciencias de la Computación</h2>
+                    
+                    <div class="contact-buttons mt-3">
+                        <!-- Email con mailto -->
+                        <a href="mailto:ordonezcoronel18@gmail.com" class="btn btn-sm btn-outline-light me-2 mb-2">
+                            <i class="fas fa-envelope me-1"></i> ordonezcoronel18@gmail.com
+                        </a>
+                                 
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/593989050829?text=Hola%20Jhoel,%20vi%20tu%20portafolio%20y%20me%20gustaría%20contactarte" 
+                           target="_blank" class="btn btn-sm btn-outline-light me-2 mb-2">
+                            <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                        </a>
+                        
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/jhoel-alexander-ordo%C3%B1ez-coronel-097b49361/" 
+                           target="_blank" class="btn btn-sm btn-outline-light me-2 mb-2">
+                            <i class="fab fa-linkedin-in me-1"></i> LinkedIn
+                        </a>
+                        
+                        <!-- GitHub -->
+                        <a href="https://github.com/JAOC1930" 
+                           target="_blank" class="btn btn-sm btn-outline-light mb-2">
+                            <i class="fab fa-github me-1"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Botón flotante de contacto -->
+    <div class="floating-contact">
+        <a href="#contacto" class="btn btn-primary rounded-pill shadow">
+            <i class="fas fa-paper-plane me-1"></i> Contáctame
+        </a>
+    </div>
+
+    <main class="container my-5">
+        {% block content %}
+        <!-- El contenido específico de cada página irá aquí -->
+        {% endblock %}
+        
+        <!-- Sección de contacto (opcional) -->
+        <section id="contacto" class="my-5 p-4 bg-light rounded d-none">
+            <h2 class="border-bottom pb-2">Contacto Directo</h2>
+            <form id="contact-form" method="POST" action="{% url 'contacto' %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="nombre" class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="celular" class="form-label">Número de Celular</label>
+                    <input type="tel" class="form-control" id="celular" name="celular" 
+                        pattern="[0-9]{10}" title="Ingresa un número de 10 dígitos" required>
+                    <small class="text-muted">Formato: 0987654321</small>
+                </div>
+                <div class="mb-3">
+                    <label for="mensaje" class="form-label">Mensaje</label>
+                    <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane me-2"></i> Enviar Mensaje
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    {% block extra_js %}
+    <script>
+        // Mostrar/ocultar sección de contacto
+        document.querySelector('.floating-contact a').addEventListener('click', function(e) {
+            e.preventDefault();
+            const contactSection = document.getElementById('contacto');
+            contactSection.classList.toggle('d-none');
+            if (!contactSection.classList.contains('d-none')) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        // Formulario de contacto con feedback
+        document.getElementById('contact-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = this;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            try {
+                // Mostrar spinner
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
+                submitBtn.disabled = true;
+                
+                // Enviar datos
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Mostrar mensaje de éxito
+                    submitBtn.innerHTML = '<i class="fas fa-check me-2"></i> ¡Enviado!';
+                    form.reset();
+                    
+                    // Ocultar el formulario después de 2 segundos
+                    setTimeout(() => {
+                        document.getElementById('contacto').classList.add('d-none');
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error(data.message || 'Error al enviar');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

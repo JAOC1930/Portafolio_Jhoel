@@ -1,0 +1,71 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block content %}
+<section class="mb-5 p-4 bg-white rounded shadow-sm">
+    <h2 class="border-bottom pb-2">Sobre mí</h2>
+    <p>Ingeniero en Ciencias de la Computación recien graduado por la Universidad Técnica
+    Particular de Loja. Con experiencia en hardware y desarrollo de software utilizando Java,
+    Python, C#, Angular, Django, HTML, CSS, Flutter, Base de datos y tecnologías 3D con Unity y
+    Blender. Soy apasionado por el desarrollo de soluciones tecnológicas que combinan
+    interactividad y eficiencia. Fuerte en el aprendizaje autónomo y la creación de proyectos con
+    impacto real.</p>
+</section>
+
+<section class="mb-5">
+    <h2 class="border-bottom pb-2 mb-4">Mis Proyectos</h2>
+    <div class="row">
+        {% for proyecto in proyectos %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <!-- Contenedor de imagen con tamaño fijo -->
+                <div class="card-img-container">
+                    {% if proyecto.imagen %}
+                    <img src="{{ proyecto.imagen.url }}" class="card-img-top" alt="{{ proyecto.titulo }}">
+                    {% else %}
+                    <img src="{% static 'imagenes/Tecnologia.jpg' %}" class="card-img-top" alt="Proyecto sin imagen">
+                    {% endif %}
+                </div>
+                
+                <div class="card-body">
+                    <h3 class="card-title h5">{{ proyecto.titulo }}</h3>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'detalle_proyecto' proyecto.id %}" class="btn btn-primary">
+                            Ver detalles
+                        </a>
+                        
+                        {% if proyecto.video_url %}
+                        <a href="{{ proyecto.video_url }}" target="_blank" class="btn btn-outline-secondary">
+                            Ver video
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    {% if proyecto.fecha_fin %}
+                    <span class="badge bg-success">Completado</span>
+                    {% else %}
+                    <span class="badge bg-warning text-dark">En progreso</span>
+                    {% endif %}
+                    
+                    <small class="text-muted float-end">
+                        {{ proyecto.fecha_inicio|date:"M Y" }}
+                        {% if proyecto.fecha_fin %}
+                        - {{ proyecto.fecha_fin|date:"M Y" }}
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Actualmente no hay proyectos registrados.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,169 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-color);
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto suave al hacer scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header img {
+        margin: 0 auto 20px;
+        display: block;
+    }
+    
+    .card {
+        margin-bottom: 20px;
+    }
+}
+
+/* Estilos para los botones de contacto */
+.contact-buttons a {
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.contact-buttons a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón flotante de contacto */
+.floating-contact {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.floating-contact a {
+    padding: 12px 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Efectos hover para iconos */
+.fab, .fas {
+    transition: transform 0.3s ease;
+}
+
+a:hover .fab, a:hover .fas {
+    transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-buttons {
+        text-align: center;
+    }
+    
+    .floating-contact {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+.project-media iframe {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Asegurar que el iframe sea responsive */
+.ratio {
+    position: relative;
+    width: 100%;
+}
+
+.ratio::before {
+    display: block;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    content: "";
+}
+
+.ratio > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Estilos para imágenes de proyectos en cards */
+.card-img-top {
+    height: 200px; /* Altura fija */
+    width: 100%;
+    object-fit: cover; /* Mantiene la relación de aspecto cubriendo el espacio */
+    object-position: center; /* Centra la imagen */
+}
+
+/* Contenedor de imagen para mantener consistencia */
+.card-img-container {
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa; /* Color de fondo si la imagen no cubre todo */
+}
+
+/* Asegurar que las cards tengan altura uniforme */
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    flex: 1; /* Hace que el cuerpo de la card ocupe el espacio restante */
+}

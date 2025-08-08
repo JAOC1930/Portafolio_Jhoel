@@ -1,0 +1,151 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}{{ proyecto.titulo }} | Portafolio{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <article class="project-detail">
+        <!-- Encabezado del proyecto -->
+        <div class="project-header mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="project-title">{{ proyecto.titulo }}</h1>
+                <a href="{% url 'index' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Volver
+                </a>
+            </div>
+            
+            <div class="project-meta">
+                <span class="badge {% if proyecto.estado == 'COMPLETADO' %}bg-success{% elif proyecto.estado == 'EN_PROGRESO' %}bg-warning text-dark{% else %}bg-info text-dark{% endif %}">
+                    {{ proyecto.get_estado_display }}
+                </span>
+                <span class="text-muted ms-3">
+                    <i class="far fa-calendar-alt me-1"></i>
+                    {{ proyecto.fecha_inicio|date:"M Y" }}
+                    {% if proyecto.fecha_fin %}
+                    - {{ proyecto.fecha_fin|date:"M Y" }}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Contenido principal -->
+            <div class="col-lg-8">
+                <!-- Video o imagen destacada -->
+                {% if proyecto.video_url %}
+                <div class="project-media mb-4">
+                    <div class="ratio ratio-16x9">
+                        <iframe width="560" height="315" src="{{ proyecto.video_url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+                {% elif proyecto.imagen %}
+                <div class="project-media mb-4">
+                    <img src="{{ proyecto.imagen.url }}" class="img-fluid rounded" alt="{{ proyecto.titulo }}">
+                </div>
+                {% endif %}
+
+                <!-- Descripción del proyecto -->
+                <div class="project-description mb-5">
+                    <h2 class="section-title mb-4">
+                        <i class="fas fa-file-alt me-2"></i>Descripción del Proyecto
+                    </h2>
+                    <div class="description-content">
+                        {{ proyecto.descripcion|linebreaks }}
+                    </div>
+                </div>
+
+                <!-- Detalles técnicos -->
+                <div class="project-tech mb-5">
+                    <h2 class="section-title mb-4">
+                        <i class="fas fa-code me-2"></i>Detalles Técnicos
+                    </h2>
+                    <div class="tech-tags">
+                        {% for tech in proyecto.tecnologias.split %}
+                            <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar con información adicional -->
+            <div class="col-lg-4">
+                <div class="project-sidebar">
+                    <!-- Imagen del proyecto -->
+                    {% if proyecto.imagen %}
+                    <div class="sidebar-card mb-4">
+                        <img src="{{ proyecto.imagen.url }}" class="card-img-top" alt="{{ proyecto.titulo }}">
+                    </div>
+                    {% endif %}
+
+                    <!-- Detalles rápidos -->
+                    <div class="sidebar-card mb-4">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="fas fa-info-circle me-2"></i>Detalles
+                            </h3>
+                            <ul class="project-details-list">
+                                {% if proyecto.fecha_inicio %}
+                                <li>
+                                    <strong>Inicio:</strong>
+                                    <span>{{ proyecto.fecha_inicio|date:"d M Y" }}</span>
+                                </li>
+                                {% endif %}
+                                {% if proyecto.fecha_fin %}
+                                <li>
+                                    <strong>Finalización:</strong>
+                                    <span>{{ proyecto.fecha_fin|date:"d M Y" }}</span>
+                                </li>
+                                <li>
+                                    <strong>Duración:</strong>
+                                    <span>{{ proyecto.duracion }}</span>
+                                </li>
+                                {% endif %}
+                                {% if proyecto.empresa %}
+                                <li>
+                                    <strong>Empresa:</strong>
+                                    <span>{{ proyecto.empresa }}</span>
+                                </li>
+                                {% endif %}
+                                {% if proyecto.tipo %}
+                                <li>
+                                    <strong>Tipo:</strong>
+                                    <span>{{ proyecto.get_tipo_display }}</span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Enlaces relacionados -->
+                    <div class="sidebar-card">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="fas fa-link me-2"></i>Enlaces
+                            </h3>
+                            <div class="project-links">
+                                {% if proyecto.url_demo %}
+                                <a href="{{ proyecto.url_demo }}" target="_blank" class="btn btn-outline-primary w-100 mb-2">
+                                    <i class="fas fa-external-link-alt me-2"></i>Ver Demo
+                                </a>
+                                {% endif %}
+                                {% if proyecto.url_repositorio %}
+                                <a href="{{ proyecto.url_repositorio }}" target="_blank" class="btn btn-outline-dark w-100 mb-2">
+                                    <i class="fab fa-github me-2"></i>Código Fuente
+                                </a>
+                                {% endif %}
+                                {% if proyecto.video_url %}
+                                <a href="{{ proyecto.video_url }}" target="_blank" class="btn btn-outline-danger w-100">
+                                    <i class="fab fa-youtube me-2"></i>Ver Video
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+{% endblock %}
+
