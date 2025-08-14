@@ -82,9 +82,7 @@ WSGI_APPLICATION = 'Portafolio_Jhoel.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
+    'default': dj_database_url.parse('postgresql://jhoel:aUx2rmJB6NSqHyBZhBmiOekA4D6TToab@dpg-d2f4lvbuibrs73f9g5n0-a.oregon-postgres.render.com/portafoliodb_cqmb')
 }
 
 
