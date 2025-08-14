@@ -21,7 +21,7 @@
                 <!-- Contenedor de imagen con tamaño fijo -->
                 <div class="card-img-container">
                     {% if proyecto.imagen %}
-                    <img src="{{ proyecto.imagen.url }}" class="card-img-top" alt="{{ proyecto.titulo }}">
+                    <img src="{{% static media/proyectos/proyecto.imagen.url %}}" class="card-img-top" alt="{{ proyecto.titulo }}">
                     {% else %}
                     <img src="{% static 'imagenes/Tecnologia.jpg' %}" class="card-img-top" alt="Proyecto sin imagen">
                     {% endif %}
