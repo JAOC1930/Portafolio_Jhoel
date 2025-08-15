@@ -41,7 +41,7 @@
                 </div>
                 {% elif proyecto.imagen %}
                 <div class="project-media mb-4">
-                    <img src="{{ proyecto.imagen.url }}" class="img-fluid rounded" alt="{{ proyecto.titulo }}">
+                    <img src="{{proyecto.imagen}}" class="img-fluid rounded" alt="{{ proyecto.titulo }}">
                 </div>
                 {% endif %}
 
@@ -74,7 +74,7 @@
                     <!-- Imagen del proyecto -->
                     {% if proyecto.imagen %}
                     <div class="sidebar-card mb-4">
-                        <img src="{{ proyecto.imagen.url }}" class="card-img-top" alt="{{ proyecto.titulo }}">
+                        <img src="{{ proyecto.imagen }}" class="card-img-top" alt="{{ proyecto.titulo }}">
                     </div>
                     {% endif %}
 

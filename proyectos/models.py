@@ -12,7 +12,7 @@ class Proyecto(models.Model):
     empresa = models.CharField(max_length=100, blank=True, null=True, verbose_name="Empresa")
 
     # Multimedia
-    imagen = models.ImageField(upload_to='proyectos/', verbose_name="Imagen principal")
+    imagen = models.URLField(blank=True, null=True, verbose_name="Imagen principal")
     video_url = models.URLField(blank=True, null=True, verbose_name="Enlace a video")
     
     # Fechas importantes
